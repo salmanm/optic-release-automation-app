@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon . | pino-pretty",
-    "test": "tap",
+    "test": "tap *.test.js",
     "lint": "eslint"
   },
   "keywords": [
