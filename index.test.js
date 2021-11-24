@@ -34,7 +34,7 @@ test('create pr', async t => {
       authorization: 'token gh-token',
       'content-type': 'application/json',
     },
-    url: '/',
+    url: '/pr',
     body: JSON.stringify({
       head: 'head-branch',
       base: 'base-branch',
