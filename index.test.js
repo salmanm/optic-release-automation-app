@@ -5,22 +5,17 @@ const sinon = require('sinon')
 
 const setup = require('./test-setup')
 
-test('healthcheck', async t => {
-  const app = await setup()
-
-  const response = await app.inject('/healthcheck')
-
-  t.same(response.json(), { ok: true })
-})
-
 test('create pr', async t => {
   const mockedRepo = { repo: 'smn-repo', owner: 'salmanm' }
 
   const getRepoDetailsStub = sinon.stub().resolves(mockedRepo)
   const getAccessTokenStub = sinon.stub().resolves('some-token')
-  const createPRStub = sinon.stub().resolves()
+  const createPRStub = sinon.stub().resolves({})
 
-  const app = await setup(server => {
+  const app = await setup(async server => {
+    server.addHook('onRequest', async req => {
+      req.auth = { ...mockedRepo }
+    })
     server.decorate('github', {
       getRepoDetails: getRepoDetailsStub,
       getAccessToken: getAccessTokenStub,
@@ -43,16 +38,8 @@ test('create pr', async t => {
     }),
   })
 
-  t.same(getRepoDetailsStub.callCount, 1)
-  t.ok(getRepoDetailsStub.calledWithExactly('gh-token'))
-
   t.same(getAccessTokenStub.callCount, 1)
-  t.ok(
-    getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo', {
-      PRIVATE_KEY: 'pk-pk',
-      APP_ID: '1122',
-    })
-  )
+  t.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
   t.same(createPRStub.callCount, 1)
   t.ok(
