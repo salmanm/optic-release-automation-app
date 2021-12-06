@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
     "pino-pretty": "^7.2.0",
-    "prettier": "^2.5.0",
+    "prettier": "^2.5.1",
     "sinon": "^12.0.1",
     "tap": "^5.8.0"
   }
