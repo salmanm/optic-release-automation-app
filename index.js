@@ -13,4 +13,4 @@ fastify
   .register(require('./lib/auth'), config)
   .register(require('./lib/routes'), config)
 
-fastify.listen(config.PORT, '0.0.0.0')
+fastify.listen({ port: config.PORT, host: '0.0.0.0' })
