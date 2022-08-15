@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/salmanm/optic-release-automation-app#readme",
   "dependencies": {
-    "@octokit/rest": "^19.0.3",
+    "@octokit/rest": "^19.0.4",
     "env-schema": "^5.0.0",
     "fastify": "^4.4.0",
     "fastify-plugin": "^4.1.0",
