@@ -63,3 +63,13 @@ _This section covers how to contribute to this app. You don't need to read furth
     - `PRIVATE_KEY`: The private key of the GitHub App. You can get this from the GitHub app settings. The default app is [here](https://github.com/apps/optic-release-automation)
 - After the steps above are configured, go to `Actions` in your GitHub repo and run the CD workflow that is created in the folder `.github/workflows/cd.yaml`. The file is already configured with the action to deploy the cloud run service using the secrets that were created in the step above.
 - Once the workflow run, go to you GCP Account and open the "Cloud Run" page to see the details of the deployed service.
+
+## Testing changes locally
+_This section covers how to run the app locally using ngrok to test your changes while developing a new feature or debugging an issue_
+
+- Create a new github app and add the following permissions:
+  - `Contents`: Read and write
+  - `Pull requests`: Read and write
+- Then go to `Install App` and install it on your repository
+- Start the server and run `ngrok http 3000` on your local machine and get the public URL. This will be your API url, which needs to be set as the webhook URL on your github app and to be passed as the `api-url` input for the `optic-release-automation-action`.
+- You should also pass the name of your bot as the `app-name` to the action. This is used after a PR is merged to check whether it was created by optic and whether we should proceed running the action on that PR
