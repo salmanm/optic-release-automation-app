@@ -97,6 +97,7 @@ test('create release with target specified', async t => {
       {
         version: 'v9.9.9',
         target: 'commit-hash',
+        generateReleaseNotes: true,
         owner: 'salmanm',
         repo: 'smn-repo',
       },
@@ -143,6 +144,7 @@ test('create release with no target specified', async t => {
     createDraftReleaseStub.calledWithExactly(
       {
         version: 'v9.9.9',
+        generateReleaseNotes: true,
         owner: 'salmanm',
         repo: 'smn-repo',
       },
