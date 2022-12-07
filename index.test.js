@@ -185,21 +185,20 @@ test('create release with releaseNotes specified', async t => {
     }),
   })
 
-  t.same(getAccessTokenStub.callCount, 1)
-  t.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
+  sinon.assert.calledOnce(getAccessTokenStub)
+  sinon.assert.calledWithExactly(getAccessTokenStub, 'salmanm', 'smn-repo')
 
-  t.same(createDraftReleaseStub.callCount, 1)
-  t.ok(
-    createDraftReleaseStub.calledWithExactly(
-      {
-        version: 'v9.9.9',
-        generateReleaseNotes: true,
-        releaseNotes: 'my release notes',
-        owner: 'salmanm',
-        repo: 'smn-repo',
-      },
-      'some-token'
-    )
+  sinon.assert.calledOnce(createDraftReleaseStub)
+  sinon.assert.calledWithExactly(
+    createDraftReleaseStub,
+    {
+      version: 'v9.9.9',
+      generateReleaseNotes: true,
+      releaseNotes: 'my release notes',
+      owner: 'salmanm',
+      repo: 'smn-repo',
+    },
+    'some-token'
   )
 
   t.same(response.statusCode, 200)
