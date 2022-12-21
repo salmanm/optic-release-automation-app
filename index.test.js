@@ -203,3 +203,52 @@ test('create release with releaseNotes specified', async t => {
 
   t.same(response.statusCode, 200)
 })
+
+test('it publishes a prerelease successfully', async t => {
+  const mockedRepo = { repo: 'smn-repo', owner: 'salmanm' }
+
+  const getAccessTokenStub = sinon.stub().resolves('some-token')
+  const publishReleaseStub = sinon.stub().resolves('some-token')
+
+  const app = await setup(async server => {
+    server.addHook('onRequest', async req => {
+      req.auth = { ...mockedRepo }
+    })
+    server.decorate('github', {
+      getAccessToken: getAccessTokenStub,
+      publishRelease: publishReleaseStub,
+    })
+  })
+
+  const response = await app.inject({
+    method: 'PATCH',
+    headers: {
+      authorization: 'token gh-token',
+      'content-type': 'application/json',
+    },
+    url: '/release',
+    body: JSON.stringify({
+      releaseId: '1',
+      version: 'v9.9.9',
+      isPreRelease: true,
+    }),
+  })
+
+  sinon.assert.calledOnce(getAccessTokenStub)
+  sinon.assert.calledWithExactly(getAccessTokenStub, 'salmanm', 'smn-repo')
+
+  sinon.assert.calledOnce(publishReleaseStub)
+  sinon.assert.calledWithExactly(
+    publishReleaseStub,
+    {
+      releaseId: '1',
+      version: 'v9.9.9',
+      isPreRelease: true,
+      owner: 'salmanm',
+      repo: 'smn-repo',
+    },
+    'some-token'
+  )
+
+  t.same(response.statusCode, 200)
+})
