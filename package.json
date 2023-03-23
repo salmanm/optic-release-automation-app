@@ -26,9 +26,6 @@
   "bugs": {
     "url": "https://github.com/salmanm/optic-release-automation-app/issues"
   },
-  "engines": {
-    "node": "~18"
-  },
   "homepage": "https://github.com/salmanm/optic-release-automation-app#readme",
   "dependencies": {
     "@octokit/rest": "^19.0.7",
