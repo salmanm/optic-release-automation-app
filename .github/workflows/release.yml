@@ -18,8 +18,12 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: nearform/optic-release-automation@main
+      - uses: nearform-actions/optic-release-automation@main
         with:
           github-token: ${{secrets.github_token}}
           semver: ${{ github.event.inputs.semver }}
+
