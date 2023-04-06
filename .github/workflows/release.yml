@@ -22,7 +22,7 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - uses: nearform-actions/optic-release-automation@main
+      - uses: nearform-actions/optic-release-automation-action@main
         with:
           github-token: ${{secrets.github_token}}
           semver: ${{ github.event.inputs.semver }}
