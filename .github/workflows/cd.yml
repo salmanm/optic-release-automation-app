@@ -21,7 +21,7 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.SERVICE_ACCOUNT }}
-          project_id: ${{ vars.PROJECT_ID }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           token_format: 'access_token'
       - id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
