@@ -7,10 +7,6 @@ on:
 
   workflow_dispatch:
 
-permissions:
-  contents: 'read'
-  id-token: 'write'
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,13 +16,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
+      - id: auth
+        uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.SERVICE_ACCOUNT }}
-          project_id: ${{ vars.PROJECT_ID }}
-          token_format: 'access_token'
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
       - id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
         with:
