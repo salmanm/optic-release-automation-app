@@ -9,12 +9,13 @@ on:
 
 jobs:
 
-  permissions:
-    contents: read
-    id-token: write
-
   deploy:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
     environment: 
       name: production
       url: ${{ steps.deploy.outputs.url }}
