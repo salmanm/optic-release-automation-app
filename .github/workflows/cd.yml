@@ -1,13 +1,18 @@
 name: cd
 
 on:
-  push:
-    tags:
-      - v*
+#  push:
+#    tags:
+#      - v*
 
   workflow_dispatch:
 
 jobs:
+
+  permissions:
+    contents: read
+    id-token: write
+
   deploy:
     runs-on: ubuntu-latest
     environment: 
@@ -16,18 +21,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - id: auth
+      - name: 'Authenticate with GCP'
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-      - id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          service: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
-          region: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          env_vars: |
-            APP_ID=${{ secrets.APP_ID }}
-            PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
-          flags: --allow-unauthenticated
-          source: .
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+#      - id: deploy
+#        uses: google-github-actions/deploy-cloudrun@v1
+#        with:
+#          service: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
+#          region: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
+#          project_id: ${{ secrets.GCP_PROJECT_ID }}
+#          env_vars: |
+#            APP_ID=${{ secrets.APP_ID }}
+#            PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
+#          flags: --allow-unauthenticated
+#          source: .
