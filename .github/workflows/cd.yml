@@ -27,14 +27,22 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          service: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
-          region: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          env_vars: |
-            APP_ID=${{ secrets.APP_ID }}
-            PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
-          flags: --allow-unauthenticated
-          source: .
+#      - id: deploy
+#        uses: google-github-actions/deploy-cloudrun@v1
+#        with:
+#          service: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
+#          region: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
+#          project_id: ${{ secrets.GCP_PROJECT_ID }}
+#          env_vars: |
+#            APP_ID=${{ secrets.APP_ID }}
+#            PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
+#          flags: --allow-unauthenticated
+#          source: .
+      - name: "Test OIDC"
+        run: |
+          gcloud artifacts repositories create test --location=us-central1 --repository-format=docker
+          gcloud artifacts repositories describe test --location=us-central1
