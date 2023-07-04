@@ -25,7 +25,6 @@ jobs:
       - name: 'Authenticate with GCP'
         uses: google-github-actions/auth@v1
         with:
-          token_format: "access_token"
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - id: deploy
