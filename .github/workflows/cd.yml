@@ -34,7 +34,24 @@ jobs:
       - name: "Whoami"
         run: |
           gcloud config get-value account
-
+      - id: deploy
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          GCP_CLOUDRUN_SERVICE_REGION: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          gcloud run deploy ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }} \
+          --quiet \
+          --source . \
+          --update-env-vars APP_ID="$APP_ID",PRIVATE_KEY="$PRIVATE_KEY" \
+          --update-labels managed-by=github-actions,commit-sha=$GITHUB_SHA \
+          --platform managed \
+          --format json \
+          --region $CLOUDRUN_SERVICE_REGION \
+          --project "$PROJECT_ID" \
+          --allow-unauthenticated
 #      - id: deploy
 #        uses: google-github-actions/deploy-cloudrun@v1
 #        with:
