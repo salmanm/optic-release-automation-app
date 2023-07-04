@@ -37,12 +37,13 @@ jobs:
       - id: deploy
         shell: bash
         env:
+          GCP_CLOUDRUN_SERVICE_NAME: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           GCP_CLOUDRUN_SERVICE_REGION: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
           PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
-          gcloud run deploy ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }} \
+          gcloud run deploy "$GCP_CLOUDRUN_SERVICE_NAME" \
           --quiet \
           --source . \
           --update-env-vars APP_ID="$APP_ID",PRIVATE_KEY="$PRIVATE_KEY" \
