@@ -25,12 +25,9 @@ jobs:
       - name: 'Authenticate with GCP'
         uses: google-github-actions/auth@v1
         with:
+          token_format: "access_token"
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
       - id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
         with:
