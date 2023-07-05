@@ -32,7 +32,7 @@ jobs:
         with:
           service: ${{ secrets.GCP_CLOUDRUN_SERVICE_NAME }}
           region: ${{ secrets.GCP_CLOUDRUN_SERVICE_REGION }}
-          project_id: "optic-release-automation-app"
+          project_id: ${{ vars.GCP_PROJECT_ID }}
           env_vars: |
             APP_ID=${{ secrets.APP_ID }}
             PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
