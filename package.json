@@ -34,7 +34,7 @@
     "fastify-plugin": "^4.5.0",
     "fluent-json-schema": "^4.1.0",
     "http-errors": "^2.0.0",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.1"
   },
   "devDependencies": {
     "eslint": "^8.43.0",
