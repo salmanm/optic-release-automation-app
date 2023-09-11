@@ -30,7 +30,7 @@
   "dependencies": {
     "@octokit/rest": "^20.0.1",
     "env-schema": "^5.2.0",
-    "fastify": "^4.22.2",
+    "fastify": "^4.23.0",
     "fastify-plugin": "^4.5.1",
     "fluent-json-schema": "^4.1.1",
     "http-errors": "^2.0.0",
