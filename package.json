@@ -1,6 +1,6 @@
 {
   "name": "optic-release-automation-app",
-  "version": "0.4.26",
+  "version": "0.4.27",
   "description": "",
   "exports": "./index.js",
   "type": "module",
