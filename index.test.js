@@ -1,9 +1,21 @@
-'use strict'
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import sinon from 'sinon';
 
-const { test } = require('tap')
-const sinon = require('sinon')
+import setup from './test-setup.js';
 
-const setup = require('./test-setup')
+test('Ensure all imports used by index.js are correct', async t => {
+  try {
+    await import('./lib/github.js')
+    await import('./lib/auth.js')
+    await import('./lib/routes.js')
+    
+    assert.ok(true, 'all imports used by index.js import correctly')
+    
+  } catch (err) {
+    assert.fail(`Failed to import files used by index.js: ${err.message}`, )
+  }
+})
 
 test('create pr', async t => {
   const mockedRepo = { repo: 'smn-repo', owner: 'salmanm' }
@@ -38,11 +50,11 @@ test('create pr', async t => {
     }),
   })
 
-  t.same(getAccessTokenStub.callCount, 1)
-  t.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
+  assert.equal(getAccessTokenStub.callCount, 1)
+  assert.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
-  t.same(createPRStub.callCount, 1)
-  t.ok(
+  assert.equal(createPRStub.callCount, 1)
+  assert.ok(
     createPRStub.calledWithExactly(
       {
         head: 'head-branch',
@@ -56,7 +68,7 @@ test('create pr', async t => {
     )
   )
 
-  t.same(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 })
 
 test('create release with target specified', async t => {
@@ -88,11 +100,11 @@ test('create release with target specified', async t => {
     }),
   })
 
-  t.same(getAccessTokenStub.callCount, 1)
-  t.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
+  assert.equal(getAccessTokenStub.callCount, 1)
+  assert.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
-  t.same(createDraftReleaseStub.callCount, 1)
-  t.ok(
+  assert.equal(createDraftReleaseStub.callCount, 1)
+  assert.ok(
     createDraftReleaseStub.calledWithExactly(
       {
         version: 'v9.9.9',
@@ -105,7 +117,7 @@ test('create release with target specified', async t => {
     )
   )
 
-  t.same(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 })
 
 test('create release with no target specified', async t => {
@@ -136,11 +148,11 @@ test('create release with no target specified', async t => {
     }),
   })
 
-  t.same(getAccessTokenStub.callCount, 1)
-  t.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
+  assert.equal(getAccessTokenStub.callCount, 1)
+  assert.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
-  t.same(createDraftReleaseStub.callCount, 1)
-  t.ok(
+  assert.equal(createDraftReleaseStub.callCount, 1)
+  assert.ok(
     createDraftReleaseStub.calledWithExactly(
       {
         version: 'v9.9.9',
@@ -152,7 +164,7 @@ test('create release with no target specified', async t => {
     )
   )
 
-  t.same(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 })
 
 test('create release with releaseNotes specified', async t => {
@@ -185,23 +197,24 @@ test('create release with releaseNotes specified', async t => {
     }),
   })
 
-  sinon.assert.calledOnce(getAccessTokenStub)
-  sinon.assert.calledWithExactly(getAccessTokenStub, 'salmanm', 'smn-repo')
+  assert.equal(getAccessTokenStub.callCount, 1)
+  assert.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
-  sinon.assert.calledOnce(createDraftReleaseStub)
-  sinon.assert.calledWithExactly(
-    createDraftReleaseStub,
-    {
-      version: 'v9.9.9',
-      generateReleaseNotes: true,
-      releaseNotes: 'my release notes',
-      owner: 'salmanm',
-      repo: 'smn-repo',
-    },
-    'some-token'
+  assert.equal(createDraftReleaseStub.callCount, 1)
+  assert.ok(
+    createDraftReleaseStub.calledWithExactly(
+      {
+        version: 'v9.9.9',
+        generateReleaseNotes: true,
+        releaseNotes: 'my release notes',
+        owner: 'salmanm',
+        repo: 'smn-repo',
+      },
+      'some-token'
+    )
   )
 
-  t.same(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 })
 
 test('it publishes a prerelease successfully', async t => {
@@ -234,21 +247,22 @@ test('it publishes a prerelease successfully', async t => {
     }),
   })
 
-  sinon.assert.calledOnce(getAccessTokenStub)
-  sinon.assert.calledWithExactly(getAccessTokenStub, 'salmanm', 'smn-repo')
+  assert.equal(getAccessTokenStub.callCount, 1)
+  assert.ok(getAccessTokenStub.calledWithExactly('salmanm', 'smn-repo'))
 
-  sinon.assert.calledOnce(publishReleaseStub)
-  sinon.assert.calledWithExactly(
-    publishReleaseStub,
-    {
-      releaseId: '1',
-      version: 'v9.9.9',
-      isPreRelease: true,
-      owner: 'salmanm',
-      repo: 'smn-repo',
-    },
-    'some-token'
+  assert.equal(publishReleaseStub.callCount, 1)
+  assert.ok(
+    publishReleaseStub.calledWithExactly(
+      {
+        releaseId: '1',
+        version: 'v9.9.9',
+        isPreRelease: true,
+        owner: 'salmanm',
+        repo: 'smn-repo',
+      },
+      'some-token'
+    )
   )
 
-  t.same(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 })

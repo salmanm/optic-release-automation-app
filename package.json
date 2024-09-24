@@ -2,11 +2,13 @@
   "name": "optic-release-automation-app",
   "version": "0.4.26",
   "description": "",
-  "main": "index.js",
+  "exports": "./index.js",
+  "type": "module",
+  "node": ">=20",
   "scripts": {
     "start": "node .",
     "dev": "nodemon . | pino-pretty",
-    "test": "tap *.test.js",
+    "test": "node --test",
     "lint": "eslint"
   },
   "keywords": [

@@ -1,16 +1,15 @@
-'use strict'
-
-const Fastify = require('fastify')
+import Fastify from 'fastify'
+import routes from './lib/routes.js';
 
 const config = {
   PRIVATE_KEY: 'pk-pk',
   APP_ID: '1122',
 }
 
-module.exports = async function (fn = s => s) {
+export default async function (fn = s => s) {
   const app = Fastify({ logger: false })
 
-  app.register(require('./lib/routes'), config)
+  app.register(routes, config)
 
   await fn(app)
   await app.ready()
